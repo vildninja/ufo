@@ -16,12 +16,15 @@ public class DropOffPoint : MonoBehaviour {
 	    
 	}
 
-    void OnTriggerEnter2D(Collider2D col)
+    IEnumerator OnTriggerEnter2D(Collider2D col)
     {
         print(col);
         if (col.GetComponent<Abductable>())
         {
             var a = col.GetComponent<Abductable>();
+            foreach (var beam in FindObjectsOfType<TractorBeam>())
+                if (beam.abducted == a.rigidbody2D)
+                    beam.abducted = null;
             score += a.score;
             Destroy(a);
 
@@ -29,6 +32,9 @@ public class DropOffPoint : MonoBehaviour {
             {
                 text.text = score.ToString();
             }
+
+            yield return new WaitForSeconds(0.5f);
+            Destroy(col.gameObject);
         }
     }
 }

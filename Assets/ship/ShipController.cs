@@ -6,6 +6,7 @@ public class ShipController : MonoBehaviour {
     public float rotation;
     public float power;
 
+    public SpriteRenderer sprite;
     public float maxHp;
     public float hp;
 
@@ -42,6 +43,12 @@ public class ShipController : MonoBehaviour {
         }
     }
 
+    public void Heal(float amount)
+    {
+        hp = Mathf.Clamp(hp + amount, 0, maxHp);
+        sprite.color = new Color(1, hp / maxHp, hp / maxHp);
+    }
+
     IEnumerator Dead()
     {
         hp = maxHp;
@@ -55,6 +62,7 @@ public class ShipController : MonoBehaviour {
             renderer.enabled = !renderer.enabled;
         }
 
+        sprite.color = new Color(1, 1, 1);
         renderer.enabled = true;
         rigidbody2D.velocity = Vector2.zero;
         rigidbody2D.angularVelocity = 0;
@@ -91,6 +99,8 @@ public class ShipController : MonoBehaviour {
     {
         print("DMG: " + damage);
         hp -= damage;
+
+        sprite.color = new Color(1, hp / maxHp, hp / maxHp);
 
         StartCoroutine(Flash());
     }
