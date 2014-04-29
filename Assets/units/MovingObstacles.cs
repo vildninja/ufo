@@ -37,7 +37,7 @@ public class MovingObstacles : MonoBehaviour {
     {
         if (col.GetComponent<ShipController>())
         {
-            col.GetComponent<ShipController>().Impact(30, col.transform.position);
+            col.GetComponent<Destructable>().Damage(30);
         }
 
         if (col.rigidbody2D)

@@ -8,16 +8,6 @@ public class Hull : MonoBehaviour {
 
     Vector2 velocity;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
     void FixedUpdate()
     {
         velocity = transform.root.rigidbody2D.velocity;
@@ -27,11 +17,8 @@ public class Hull : MonoBehaviour {
     {
         float impact = (velocity - transform.root.rigidbody2D.velocity).magnitude - threshold;
         if (impact > 0)
-            transform.root.GetComponent<ShipController>().Impact(impact * multiplier, col.contacts[0].point);
-    }
-
-    void OnCollisionStay2D(Collision2D col)
-    {
-        OnCollisionEnter2D(col);
+        {
+            transform.root.GetComponent<Destructable>().Damage(impact * multiplier);
+        }
     }
 }
