@@ -8,6 +8,7 @@ using System.Collections;
 public class GroundCreator : MonoBehaviour {
 
     public bool updateMesh;
+    public bool export;
 
 	// Use this for initialization
 	void Start () {
@@ -22,12 +23,18 @@ public class GroundCreator : MonoBehaviour {
             UpdateMesh();
             updateMesh = false;
         }
-	}
+#if UNITY_EDITOR
+        if (export)
+        {
+            export = false;
+            UnityEditor.AssetDatabase.CreateAsset(GetComponent<MeshFilter>().mesh, "Assets/" + name + ".asset");
+        }
+#endif
+    }
 
     public void UpdateMesh()
     {
         var poly = GetComponent<PolygonCollider2D>();
-        print(poly.pathCount + " " + poly.shapeCount + " " + poly.points);
         var tris = new Triangulator(poly.points);
         var indices = tris.Triangulate();
 

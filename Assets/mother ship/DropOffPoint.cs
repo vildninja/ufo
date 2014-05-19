@@ -18,7 +18,6 @@ public class DropOffPoint : MonoBehaviour {
 
     IEnumerator OnTriggerEnter2D(Collider2D col)
     {
-        print(col);
         if (col.GetComponent<Abductable>())
         {
             var a = col.GetComponent<Abductable>();
